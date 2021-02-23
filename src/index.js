@@ -28,12 +28,12 @@ io.on("connect", (socket) => {
 
         socket.join(user.room);
 
-        socket.emit("Welcome", generateMessage("Admin" ,"Welcome!"))
+        socket.emit("Welcome", generateMessage("Admin", "Welcome!"))
 
-        socket.broadcast.to(user.room).emit("Welcome", generateMessage("Admin" , user.username + " joined"))
-        io.to(user.room).emit("roomData",{
-            room:user.room,
-            users : findUserInRoom(user.room)
+        socket.broadcast.to(user.room).emit("Welcome", generateMessage("Admin", user.username + " joined"))
+        io.to(user.room).emit("roomData", {
+            room: user.room,
+            users: findUserInRoom(user.room)
         })
         callback()
     })
@@ -45,25 +45,25 @@ io.on("connect", (socket) => {
         if (filter.isProfane(clientMessage)) {
             return callback("Bad Words is not allowed")
         }
-        io.to(user.room).emit("serverMessage", generateMessage(user.username,clientMessage))
+        io.to(user.room).emit("serverMessage", generateMessage(user.username, clientMessage))
         callback()
     })
     socket.on("location", ({ latitude, longitude }, callback) => {
         const user = findUser(socket.id)
-        socket.broadcast.emit("serverMessage", generateMessage(user.username,`lat:${latitude} and lng:${longitude}`))
+        socket.broadcast.emit("serverMessage", generateMessage(user.username, `lat:${latitude} and lng:${longitude}`))
         callback();
     })
 
     socket.on("disconnect", () => {
         const user = removeUser(socket.id);
-        if(user)  {
-            io.to(user.room).emit("Welcome", generateMessage("Admin", user.username +" has just left"))
-            io.to(user.room).emit("roomData",{
-                room:user.room,
-            users : findUserInRoom(user.room)
+        if (user) {
+            io.to(user.room).emit("Welcome", generateMessage("Admin", user.username + " has just left"))
+            io.to(user.room).emit("roomData", {
+                room: user.room,
+                users: findUserInRoom(user.room)
             })
         }
-        
+
     })
 })
 

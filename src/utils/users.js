@@ -1,40 +1,40 @@
 const users = []
 
-const addUser = ({id,username,roomname}) => {
+const addUser = ({ id, username, roomname }) => {
     username = username.trim().toLowerCase()
     room = roomname.trim().toLowerCase()
 
-    if(!username || !room){
+    if (!username || !room) {
         return {
             error: "username and room are required"
         }
     }
-    
+
     const exitingUsername = users.find((user) => {
         return user.room == room && user.username === username
     })
-    
-    if(exitingUsername){
+
+    if (exitingUsername) {
         return {
-            error : "User name already use!"
+            error: "User name already use!"
         }
     }
-    const user = {id,username,room}
+    const user = { id, username, room }
     users.push(user)
-    return {user}
+    return { user }
 
 }
 
 const removeUser = (id) => {
-    const index = users.findIndex((user) => user.id === id )
+    const index = users.findIndex((user) => user.id === id)
 
-    if(index!== -1){
-        return users.splice(index,1)[0]
+    if (index !== -1) {
+        return users.splice(index, 1)[0]
     }
 }
 
 const findUser = (id) => {
-       return users.find((user) => user.id == id);
+    return users.find((user) => user.id == id);
 
 }
 
